@@ -13,5 +13,6 @@
 6 7
 7 8
 $
-Brute Force: 3
-Heuristic: 4
+Graph Coloring Brute Force: 3
+Graph Coloring Heuristic: 4
+Max Independent Set: 2

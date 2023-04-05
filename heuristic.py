@@ -11,7 +11,7 @@ import sys
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def init_coloring(num_vertices):
+def init_coloring(vertices):
     """
     Function that will initialize a coloring array to all zeros.
     Parameters:
@@ -22,9 +22,9 @@ def init_coloring(num_vertices):
     --------
         array: The initialized coloring array.
     """
-    coloring = []
-    for i in range(num_vertices):
-        coloring.append(0)
+    coloring = {}
+    for vertex in vertices:
+        coloring[vertex] = 0
     return coloring
 
 def color_vertex(vertex, max_colors, coloring, graph):
@@ -51,11 +51,11 @@ def color_vertex(vertex, max_colors, coloring, graph):
         remaining_colors.append(color)
     # Loop through each neighbor to get a list of remaining colors
     for neighbor in graph[vertex]:
-        if coloring[neighbor-1] in remaining_colors:
-            remaining_colors.remove(coloring[neighbor-1])
+        if coloring[neighbor] in remaining_colors:
+            remaining_colors.remove(coloring[neighbor])
     # If any coloring remain color using the lowest number
     if len(remaining_colors) > 0:
-        coloring[vertex-1] = remaining_colors[0]
+        coloring[vertex] = remaining_colors[0]
         return True
     else:
         return False
@@ -84,7 +84,7 @@ def heuristic_search(graph):
     solution_found = False
     while not solution_found:
         # Initialize coloring to blank values (0)
-        coloring = init_coloring(len(graph))
+        coloring = init_coloring(graph.keys())
         # Attempt to color the sorted list
         for vertex in sorted_list:
             if not color_vertex(vertex[0], max_colors, coloring, graph):
@@ -147,7 +147,7 @@ def main():
             for neighbor in neighbors:
                 G.add_edge(vertex, neighbor)
         # Set the color for each vertex based on the coloring
-        color_map = [coloring[node - 1] for node in G.nodes]
+        color_map = [coloring[node] for node in G.nodes]
         # Draw the graph
         pos = nx.spring_layout(G, seed=42)
         nx.draw(G, pos, node_color=color_map, with_labels=True, cmap=plt.cm.jet)
