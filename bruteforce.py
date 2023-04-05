@@ -9,6 +9,8 @@ python3 bruteforce-loop.py <graph file>
 """
 from itertools import product
 import sys
+import networkx as nx
+import matplotlib.pyplot as plt
 
 def is_valid_coloring_loop(coloring, graph):
     """
@@ -128,9 +130,24 @@ def main():
                     graph[node2] = [node1]
 
     chromatic_number, coloring = find_chromatic_number_bruteforce_loop(graph)
-    print_graph(graph)
     print(f"Chromatic number: {chromatic_number}")
     print(f"Coloring: {coloring}")
+
+    # Provide a diagram of the graph if requested
+    if sys.argv[2] == 'y':
+        # Create a NetworkX graph object
+        G = nx.Graph()
+        # Add vertices and edges to the graph
+        for vertex, neighbors in graph.items():
+            G.add_node(vertex)
+            for neighbor in neighbors:
+                G.add_edge(vertex, neighbor)
+        # Set the color for each vertex based on the coloring
+        color_map = [coloring[node - 1] for node in G.nodes]
+        # Draw the graph
+        pos = nx.spring_layout(G, seed=42)
+        nx.draw(G, pos, node_color=color_map, with_labels=True, cmap=plt.cm.jet)
+        plt.show()
 
 if __name__ == "__main__":
     main()
