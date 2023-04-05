@@ -10,4 +10,4 @@
 $
 Graph Coloring Brute Force: 2
 Graph Coloring Heuristic: 3
-Max Independent Set: 5
+Max Independent Set: 4

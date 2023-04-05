@@ -15,4 +15,4 @@
 $
 Graph Coloring Brute Force: 3
 Graph Coloring Heuristic: 4
-Max Independent Set: 2
+Max Independent Set: 3
