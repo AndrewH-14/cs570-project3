@@ -67,7 +67,6 @@ def write_to_file(graph):
         f.writelines(output_lines)
 
 
-
 def main():
     """
     The main function for the program.
