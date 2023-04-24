@@ -1,3 +1,3 @@
 #!/bin/bash
-python3 max_independent_set.py ../suboptimal/graph.txt
-python3 ../heuristic.py intermediate.txt y
+python3 max_independent_set.py example3.txt
+python3 ../bruteforce.py intermediate.txt y

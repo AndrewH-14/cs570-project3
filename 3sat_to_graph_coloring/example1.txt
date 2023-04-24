@@ -1,0 +1,7 @@
+3-Sat Problem:
+1 -2 3
+-1 2 3
+1 2 -3
+-1 -2 -3
+$
+(x1 OR ~x2 OR x3) AND (~x1 OR x2 OR x3) AND (x1 OR x2 OR ~x3) AND (~x1 OR ~x2 OR ~x3)
