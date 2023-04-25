@@ -23,25 +23,30 @@ CS570-Project3/
  ├── README.md : Overview of the repo and project.
  ├── heuristic.py : A heuristic algorithm for the graph coloring problem.
  ├── bruteforce.py : A brute force implementation of the graph coloring algorithm.
+ ├── graph_util.py : Module containing utility functions for handling graphs.
+ |
  ├── optimal/
- |     ├── graph.txt : Heurisitic gets optimal solution.
- |     ├── graph2.txt : Heurisitic gets optimal solution.
- |     ├── graph3.txt : Heurisitic gets optimal solution.
- |     ├── ...
- |     ├── graph10.txt : Heurisitic gets optimal solution.
+ |     ├── simple.dat : A simple graph where bf/h get the same result.
+ |     ├── intractable.dat : A complex graph that bf cannot compute.
  |
  ├── suboptimal/
- |    ├── graph.txt : Graph that causes heuristic to give suboptimal solution.
- |    ├── graph2.txt : Graph that causes heuristic to give suboptimal solution.
+ |    ├── suboptimal1.dat
+ |    ├── suboptimal2.dat
+ |    ├── suboptimal3.dat
+ |    ├── suboptimal4.dat
  |
  ├── 3sat_to_graph_coloring/
- |    ├── 3sat_to_graph_coloring.py : TODO
- |    ├── example1.txt
- |    ├── example2.txt
- |    ├── example3.txt
+ |    ├── 3sat_to_graph_coloring.py : Program that maps a 3sat problem to a gc problem
+ |    ├── 3sat_to_gc1.dat
+ |    ├── 3sat_to_gc2.dat
+ |    ├── 3sat_to_gc3.dat
+ |    ├── example_mapping.png
+ |    ├── example_result.png
  |
  ├── graph_coloring_to_clique/
- |    ├── gc_to_clique.py : Program that will map a graph coloring problem to the clique problem.
+      ├── gc_to_clique.py : Program that will map a graph coloring problem to the clique problem.
+      ├── gc_to_clique.dat
+      ├── example_result.png
 ```
 
 ## Graph Coloring Algorithms
@@ -220,7 +225,7 @@ $
 ```
 **Mapping Result:**
 ```
-% python3 3sat_to_gc.py 3sat_to_gc3.dat y
+% python3 3sat_to_gc.py 3sat_to_gc3.dat bf y
 Chromatic number: 3
 Coloring: {'-1': 1, '-2': 1, '-3': 1, '1': 2, '2': 2, '3': 2, 'B': 3, 'F': 1, 'T': 2, 'c0_0': 2, 'c0_1': 1, 'c0_2': 3, 'c0_3': 1, 'c0_4': 3, 'c0_5': 2}
 ```
@@ -237,7 +242,7 @@ Given an instance of the graph coloring problem with a graph `G = (V, E)` and `k
     1. `{u, v}` is not an edge in G.
     2. If `{u, v}` is an edge in G, then `color(u) != color(v)`
 
-After running the clique algorithm over the new graph, if a clique of size `|V|` exists, then we know that the grpah is `k` colorable.
+After running the clique algorithm over the new graph, if a clique of size `|V|` exists, then we know that the graph is `k` colorable.
 
 #### Running the mapping:
 
