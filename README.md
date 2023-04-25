@@ -207,7 +207,8 @@ Once this graph has been created, we then can run the graph coloring algorithm o
 **Example:**
 
 <img src="./3sat_to_graph_coloring/example_mapping.png" alt="example mapping" width="50%">
-*https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf*
+
+https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf
 
 #### Running the Mapping:
 For a simple example of the mapping, I will only use one clause.
@@ -228,8 +229,61 @@ Coloring: {'-1': 1, '-2': 1, '-3': 1, '1': 2, '2': 2, '3': 2, 'B': 3, 'F': 1, 'T
 ### Mapping Graph Coloring to the Clique Problem
 
 #### Approach:
+Since both the graph coloring problem and the clique problem are included in the NP-Hard problem set, there exits a reduction between the two. For this project, I mapped the graph coloring problem onto the clique problem.
+
+Given an instance of the graph coloring problem with a graph `G = (V, E)` and `k` colors, we can contstruct a new graph G' as follows:
+1. For each vertex `v` in `V`, create `k` copies of `v`, denoted `v1, v2, ..., vk`. These copies represent the possible colors of vertex `v`.
+2. Connect vertices in `V'` that meet the following conditions:
+    1. `{u, v}` is not an edge in G.
+    2. If `{u, v}` is an edge in G, then `color(u) != color(v)`
+
+After running the clique algorithm over the new graph, if a clique of size `|V|` exists, then we know that the grpah is `k` colorable.
 
 #### Running the mapping:
+
+**Input Graph:**
+```
+Graph Coloring Problem:
+3
+1 3 1
+1 2 1
+$
+```
+**Mapping Result:**
+```
+% python3 gc_to_clique.py gc_to_clique.dat y 3
+```
+
+```
+Clique Problem:
+9
+1 8 0
+1 9 0
+1 5 0
+1 6 0
+2 7 0
+2 9 0
+2 4 0
+2 6 0
+3 7 0
+3 8 0
+3 4 0
+3 5 0
+4 7 0
+4 8 0
+4 9 0
+5 7 0
+5 8 0
+5 9 0
+6 7 0
+6 8 0
+6 9 0
+$
+```
+
+<img src="./graph_coloring_to_clique/example_result.png" alt="example mapping" width="50%">
+
+From here, we can then analyze the graph, and check whether a clique of size `|V|` exists, which in this case is 3. Looking at the graph, a clique of size 3 does exists, therefore we know that the graph is 3 colorable
 
 ## References
 The following references were used when create the graph coloring algorithms and mappings:

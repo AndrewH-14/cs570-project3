@@ -1,8 +1,9 @@
 """
 """
 import sys
-import networkx as nx
-import matplotlib.pyplot as plt
+sys.path.append('../')
+import graph_util
+
 
 def graph_coloring_to_clique(G, k):
     """
@@ -35,44 +36,6 @@ def graph_coloring_to_clique(G, k):
                     H[vertex].append(vertex2)
     return H
 
-def print_graph(graph):
-    """
-    Prints of the graph.
-    Parameters:
-    -----------
-        Graph: dictionary
-            The graph to find a solution for.
-    """
-    for vertex in graph:
-        print(f"{vertex}: {graph[vertex]}")
-    return
-
-def read_graph(file):
-    """
-    """
-    graph = {}
-    file_name  = sys.argv[1]
-    with open(file_name, 'r') as file:
-        num_vertices = int(file.readline())
-        for line in file:
-            if line[0] == '$':
-                break
-            else:
-                data = line.split(" ")
-                node1 = int(data[0])
-                node2 = int(data[1])
-                if node1 in graph:
-                    if node2 not in graph[node1]:
-                        graph[node1].append(node2)
-                else:
-                    graph[node1] = [node2]
-                if node2 in graph:
-                    if node1 not in graph[node2]:
-                        graph[node2].append(node1)
-                else:
-                    graph[node2] = [node1]
-    return graph
-
 def write_to_file(graph, k):
     """
     """
@@ -94,9 +57,12 @@ def main():
     file_name  = sys.argv[1]
     visual = sys.argv[2]
     k = int(sys.argv[3])
-    G = read_graph(file_name)
+    G = graph_util.read_graph_from_file(file_name)
     H = graph_coloring_to_clique(G, k)
     write_to_file(H, k)
+    if visual == 'y':
+        coloring = {key: 0 for key in H}
+        graph_util.create_graph(H, coloring)
     return
 
 if __name__ == "__main__":
