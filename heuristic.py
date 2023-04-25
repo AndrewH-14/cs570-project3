@@ -94,43 +94,11 @@ def heuristic_search(graph):
 
     return max_colors, coloring
 
-def print_graph(graph):
-    """
-    Prints of the graph.
-    Parameters:
-    -----------
-        Graph: dictionary
-            The graph to find a solution for.
-    """
-    for vertex in graph:
-        print(f"{vertex}: {graph[vertex]}")
-    return
-
 def main():
     """
     The main function for the program.
     """
-    graph = {}
-    file_name  = sys.argv[1]
-    with open(file_name, 'r') as file:
-        num_vertices = int(file.readline())
-        for line in file:
-            if line[0] == '$':
-                break
-            else:
-                data = line.split(" ")
-                node1 = int(data[0])
-                node2 = int(data[1])
-                if node1 in graph:
-                    if node2 not in graph[node1]:
-                        graph[node1].append(node2)
-                else:
-                    graph[node1] = [node2]
-                if node2 in graph:
-                    if node1 not in graph[node2]:
-                        graph[node2].append(node1)
-                else:
-                    graph[node2] = [node1]
+    graph = graph_util.read_graph_from_file(sys.argv[1])
 
     k, coloring = heuristic_search(graph)
 
