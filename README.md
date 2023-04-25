@@ -205,6 +205,7 @@ First let us assume that the 3-SAT problem has a 3-SAT formula of `m` clauses wi
 Once this graph has been created, we then can run the graph coloring algorithm on it. If the graph is 3 colorable, then we know that the 3-SAT problem has a solution.
 
 **Example:**
+
 <img src="./3sat_to_graph_coloring/example_mapping.png" alt="example mapping" width="50%">
 *https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf*
 
