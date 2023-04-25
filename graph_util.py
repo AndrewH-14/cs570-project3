@@ -1,7 +1,25 @@
+"""
+Module that defines utility functions in regards to graphs.
+
+Written by: Andrew Hankins
+"""
 import networkx as nx
 import matplotlib.pyplot as plt
 
 def create_graph(graph, coloring):
+    """
+    Function that will create a visualization of a graph using the networkx
+    module.
+    Parameters:
+    -----------
+        graph : dictionary
+            The graph that will be visualized.
+        coloring : dictionary
+            The coloring of the provided graph.
+    Returns:
+    --------
+        None
+    """
     # Create a NetworkX graph object
     G = nx.Graph()
     # Add vertices and edges to the graph
@@ -19,7 +37,7 @@ def create_graph(graph, coloring):
 
 def print_graph(graph):
     """
-    Prints of the graph.
+    Prints off the graph.
     Parameters:
     -----------
         graph
@@ -32,6 +50,20 @@ def print_graph(graph):
     return
 
 def read_graph_from_file(file_name):
+    """
+    Function that will read a graph input file and store it in a dictionary.
+
+    Note: For more info about the input file format look at the README.md
+
+    Parameters:
+    -----------
+        file_name : str
+            The name of the input file that contains the graph.
+    Returns:
+    --------
+        dictionary : A representation of the graph, where each key represents a vertex
+                     and each item is a list of the vertex's neigbors.
+    """
     graph = {}
     # Open the specifed file in order to read its data
     with open(file_name, 'r') as file:
@@ -53,7 +85,6 @@ def read_graph_from_file(file_name):
                         graph[node1].append(node2)
                 else:
                     graph[node1] = [node2]
-
                 if node2 in graph:
                     if node1 not in graph[node2]:
                         graph[node2].append(node1)

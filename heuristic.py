@@ -5,7 +5,7 @@ input.
 Written by: Andrew Hankins
 
 Running the program:
-python3 heuristic.py <graph file> <y/n diagram>
+python3 heuristic.py <data file> <y/n diagram>
 """
 import sys
 import graph_util
@@ -32,13 +32,13 @@ def color_vertex(vertex, max_colors, coloring, graph):
     colors allowed.
     Parameters:
     -----------
-        vertex: int
+        vertex : int
             The key of the vertex we are attempting to color.
-        max_colors: int
+        max_colors : int
             The maximum number of colors that can be used.
-        coloring: arr
+        coloring : arr
             The current coloring of the graph. 0 represents an uncolored vertex.
-        graph: dict
+        graph : dict
             The graph we are attempting to color.
     Returns:
     --------
@@ -65,12 +65,12 @@ def heuristic_search(graph):
     coloring problem.
     Parameters:
     -----------
-        Graph: dictionary
+        graph : dictionary
             The graph to find a solution for.
     Returns:
     --------
-        int: The number of colors used in the solution.
-        arr: The coloring of the graph in array form.
+        int : The number of colors used in the solution.
+        arr : The coloring of the graph in array form.
     """
     # Sorted vertices by their number of neighbors
     vertices_neighbors = {}
@@ -98,16 +98,15 @@ def main():
     """
     The main function for the program.
     """
+    # Read in the graph from the given file
     graph = graph_util.read_graph_from_file(sys.argv[1])
-
+    # Run the heuristic algorithm on the provided graph
     k, coloring = heuristic_search(graph)
-
     # Output graph information
     print(f"Chromatic number: {k}")
     print(f"Coloring: {coloring}")
     if sys.argv[2] == 'y':
         graph_util.create_graph(graph, coloring)
-
     return
 
 if __name__ == "__main__":

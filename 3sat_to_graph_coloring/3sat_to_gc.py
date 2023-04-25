@@ -1,10 +1,18 @@
+"""
+Program that will map a graph coloring problem to the clique problem.
+
+Written by: Andrew Hankins
+
+Running the program:
+python3 heuristic.py <data file> <bf/h> <y/n>
+"""
 import sys
 sys.path.append('../')
 import heuristic
 import bruteforce
 import graph_util
 
-def sat_to_3coloring(formula):
+def sat_to_3coloring(formula, algorithm):
     # Parse the SAT formula to extract the variables and clauses
     variables = set()
     for clause in formula:
@@ -46,8 +54,12 @@ def sat_to_3coloring(formula):
         G['B'].append(c5)
         G['F'].append(c5)
 
-    # Color the graph to determine if the formula is solvable
-    k, coloring = bruteforce.find_chromatic_number_bruteforce_loop(G)
+    # Color the graph to determine if the formula is solvable using the
+    # desired algorithm
+    if algorithm == 'bf':
+        k, coloring = bruteforce.find_chromatic_number_bruteforce_loop(G)
+    elif algorithm == 'h':
+        k, coloring = heuristic.heuristic_search(G)
 
     return (True if k <= 3 else False), G, k, coloring
 
@@ -71,15 +83,17 @@ def read_file(file_name):
     return clauses
 
 def main():
+    # Read sat forumal from data file
     sat_formula = read_file(sys.argv[1])
-    solvable, G, k, coloring = sat_to_3coloring(sat_formula)
+    # Get the solution if any exist
+    solvable, G, k, coloring = sat_to_3coloring(sat_formula, sys.argv[2])
     if solvable:
-        print("Possible!")
+        print("Solvable!")
         print(f"Chromatic number: {k}")
         print(f"Coloring: {coloring}")
     else:
-        print("Impossible")
-    if sys.argv[2] == 'y':
+        print("Unsolvable!")
+    if sys.argv[3] == 'y':
         graph_util.create_graph(G, coloring)
     return
 

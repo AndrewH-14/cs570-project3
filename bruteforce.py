@@ -5,7 +5,7 @@ input.
 Written by: Andrew Hankins
 
 Running the program:
-python3 bruteforce-loop.py <graph file> <y/n diagram>
+python3 bruteforce.py <data file> <y/n diagram>
 """
 from itertools import product
 import sys
@@ -17,8 +17,10 @@ def is_valid_coloring_loop(coloring, graph):
     coloring problem.
     Parameters:
     -----------
-        coloring :
-        graph :
+        coloring : dictionary
+            The coloring of the graph.
+        graph : dictionary
+            The graph that is being colored.
     Returns:
     --------
         bool : Whether or not the graph is a valid solution to the graph
@@ -40,11 +42,14 @@ def graph_coloring_loop(graph, num_colors):
     provided in order to find a valid solution.
     Parameters:
     -----------
-        graph :
+        graph : dictionary
+            The graph that we are attempting to find a coloring for.
+        num_colors : int
+            The number of colors that are allowed.
     Returns:
     --------
-        arr : The coloring of the graph is one is found. Will be None if no possible
-              valid colorings exist.
+        dictionary : The coloring of the graph is one is found. Will be None if
+                     no possible valid colorings exist.
     """
     num_vertices = len(graph.keys())
     # Generate all possible color combinations for the given number of colors
@@ -64,22 +69,21 @@ def find_chromatic_number_bruteforce_loop(graph):
     smallest possible number of colors.
     Parameters:
     -----------
-        graph :
+        graph : dictionary
+            The graph that we are attempting to find the chromatic number for.
     Returns:
     --------
         int : Minumum number of colors able to color the graph.
-        arr : An array of the colors for each vertex.
+        dictionary : A dictionary of the graph coloring.
     """
     num_vertices = len(graph.keys())
     # Iterate through possible numbers of colors, starting from 1
     for num_colors in range(1, num_vertices + 1):
         # Try to color the graph with the current number of colors
         coloring = graph_coloring_loop(graph, num_colors)
-
         # If a valid coloring is found, return the chromatic number and coloring
         if coloring:
             return num_colors, coloring
-
     # If no valid coloring is found, return None
     return None
 
@@ -87,8 +91,11 @@ def main():
     """
     The main function for the program.
     """
+    # Read graph from the data file
     graph = graph_util.read_graph_from_file(sys.argv[1])
+    # Determine the chromatic coloring of the graph using the bruteforce method.
     chromatic_number, coloring = find_chromatic_number_bruteforce_loop(graph)
+    # Print off the resulting information
     print(f"Chromatic number: {chromatic_number}")
     print(f"Coloring: {coloring}")
     # Provide a diagram of the graph if requested

@@ -1,12 +1,29 @@
 """
+Program that will map a graph coloring problem to the clique problem.
+
+Written by: Andrew Hankins
+
+Running the program:
+python3 heuristic.py <data file> <y/n diagram> <num colors>
 """
 import sys
 sys.path.append('../')
 import graph_util
 
-
 def graph_coloring_to_clique(G, k):
     """
+    Function that will map a graph coloring problem to the clique problem.
+    Parameters:
+    -----------
+        G : dictionary
+            The original graph that we are attempting to find the chromatic
+            number for.
+        k : int
+            The number of colors that we would like to check.
+    Returns:
+    --------
+        dictionary : The new graph that solving the clique problem for will
+                     determine if it can be colored in k colors.
     """
     # Initialize the new graph that is going to be created
     H = {}
@@ -38,9 +55,20 @@ def graph_coloring_to_clique(G, k):
 
 def write_to_file(graph, k):
     """
+    Function that will write the new graph to an intermediate data file.
+    Parameters:
+    -----------
+        graph : dictionary
+            The graph that needs to be written to a data file.
+        k : int
+            The number of colors that is being tested for the chromatic number.
+            This is used to number the nodes in the new graph file.
+    Returns:
+    --------
+        None
     """
     # Convert graph to form that can be stored in a data file
-    output_lines = [f"{len(graph)}\n"]
+    output_lines = ["Clique Problem:\n", f"{len(graph)}\n"]
     for node, neighbors in graph.items():
         file_node = (int(str(node).split("-")[0]) * k) - (k - (int(str(node).split("-")[1])))
         for neighbor in neighbors:
@@ -48,19 +76,22 @@ def write_to_file(graph, k):
             if file_node < file_neighbor:
                 output_lines.append(f"{file_node} {file_neighbor} 0\n")
     output_lines.append("$\n")
-    with open("intermediate.txt", "w") as f:
+    with open("intermediate.dat", "w") as f:
         f.writelines(output_lines)
 
 def main():
     """
+    The main function for the graph coloring to clique mapping. This function
+    will take a graph that we are attempting to find the chromatic number for
+    and then map it to the clique problem. By solving the clique problem for
+    the resulting graph, we can then determine the chromatic number for the
+    graph coloring problem.
     """
-    file_name  = sys.argv[1]
-    visual = sys.argv[2]
     k = int(sys.argv[3])
-    G = graph_util.read_graph_from_file(file_name)
+    G = graph_util.read_graph_from_file(sys.argv[1])
     H = graph_coloring_to_clique(G, k)
     write_to_file(H, k)
-    if visual == 'y':
+    if sys.argv[2] == 'y':
         coloring = {key: 0 for key in H}
         graph_util.create_graph(H, coloring)
     return
