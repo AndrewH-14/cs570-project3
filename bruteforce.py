@@ -5,7 +5,7 @@ input.
 Written by: Andrew Hankins
 
 Running the program:
-python3 bruteforce-loop.py <graph file>
+python3 bruteforce-loop.py <graph file> <y/n diagram>
 """
 from itertools import product
 import sys
@@ -51,7 +51,6 @@ def graph_coloring_loop(graph, num_colors):
     for coloring in product(range(1, num_colors + 1), repeat=num_vertices):
         # Create the coloring dictionary
         coloring_dict = dict(zip(dict(sorted(graph.items())).keys(), coloring))
-        print(coloring_dict)
         # Check if the current coloring is valid for the graph
         if is_valid_coloring_loop(coloring_dict, graph):
             # If it is, return the coloring

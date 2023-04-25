@@ -20,58 +20,68 @@ pip install matplotlib==3.4.2
 ## Repository Structure
 ```
 CS570-Project3/
- ├── README.md : TODO
- ├── heuristic.py : TODO
- ├── bruteforce.py : TODO
+ ├── README.md : Overview of the repo and project.
+ ├── heuristic.py : A heuristic algorithm for the graph coloring problem.
+ ├── bruteforce.py : A brute force implementation of the graph coloring algorithm.
  ├── optimal/
- |     ├── graph.txt : TODO
- |     ├── graph2.txt : TODO
- |     ├── graph3.txt : TODO
+ |     ├── graph.txt : Heurisitic gets optimal solution.
+ |     ├── graph2.txt : Heurisitic gets optimal solution.
+ |     ├── graph3.txt : Heurisitic gets optimal solution.
  |     ├── ...
- |     ├── graph10.txt : TODO
+ |     ├── graph10.txt : Heurisitic gets optimal solution.
  |
  ├── suboptimal/
- |    ├── graph.txt : TODO
- |    ├── graph2.txt : TODO
+ |    ├── graph.txt : Graph that causes heuristic to give suboptimal solution.
+ |    ├── graph2.txt : Graph that causes heuristic to give suboptimal solution.
  |
- ├── max_independent_set/
- |    ├── max_independent_set.py : TODO
- |    ├── run_mapping.sh
+ ├── 3sat_to_graph_coloring/
+ |    ├── 3sat_to_graph_coloring.py : TODO
+ |    ├── example1.txt
+ |    ├── example2.txt
+ |    ├── example3.txt
  |
- ├── clique/
- |    ├── clique_problem.py : TODO
+ ├── graph_coloring_to_clique/
+ |    ├── gc_to_clique.py : Program that will map a graph coloring problem to the clique problem.
 ```
 
-## Brute Force Algorithm
+## Graph Coloring Algorithms
 
-**Approach:**
-For the brute force graph coloring algorithm, the program will incrementally test all possible graph colorings from 1 ... k. The program will exit as soon as the first solution is found, which is gaurantted to be the chromatic number, or least number of colors needed to color the graph.
-
-**Running the brute force algorithm:**
-In order to run the brute force algorithm for the graph coloring problem, use the following command:
+### Data File Format
+Graphs will be passed to the two algorithms using a data file in the following format:
 ```
-python3 bruteforce.py <graph> <visual>
-```
-The `<graph>` arguments corresponds to a graph data file that follows the following format:
-```
+Graph Coloring Problem:
 <num vertices>
-<vertex 1> <vertex 2> <weight>
-<vertex 3> <vertex 1> <weight>
+<vertex> <vertex> <weight>
+<vertex> <vertex> <weight>
 ...
-<vertex 4> <vertex 2> <weigth>
+<vertex> <vertex> <weigth>
 $
 ```
-Ex:
+**Example `graph.dat`:**
 ```
+Graph Coloring Problem:
 3
 1 2 1
 1 3 1
 2 3 1
 $
 ```
-The `<visual>` argument requires a `y` or `n` option. If `y` is given, the networkx library will be used to create a visual representation of the graph coloring.
+**Note:** The weights will have no effect, but must be included.
 
-## Heuristic Algorithm
+### Brute Force Algorithm
+
+**Approach:**
+For the brute force graph coloring algorithm, the program will incrementally test all possible graph colorings from 1 ... k. The program will exit as soon as the first solution is found, which is guaranteed to be the chromatic number, or least number of colors needed to color the graph.
+
+**Running the brute force algorithm:**
+In order to run the brute force algorithm for the graph coloring problem, use the following command:
+```
+python3 bruteforce.py <graph> <visual>
+```
+The `<graph>` arguments corresponds to a graph data file that follows the previously described format.
+The `<visual>` argument requires a `y` or `n` option. If `y` is given, the `networkx` library will be used to create a visual representation of the graph coloring.
+
+### Heuristic Algorithm
 
 **Approach:**
 The heuristic algorithm used for the graph coloring problem works by incrementally attempting to color the graph in decreasing order of the node's degree. This means that nodes with more edges connected to them will be colored first, as they are more likely to cause conflicts if left uncolored. If the current number of colors is not enough to color the graph without conflicts, the algorithm will increase the number of colors allowed. This continues until a valid coloring is found.
@@ -80,9 +90,69 @@ The heuristic algorithm used for the graph coloring problem works by incremental
 ```
 python3 heuristic.py <graph> <visual>
 ```
+The `<graph>` arguments corresponds to a graph data file that follows the previously described format.
+The `<visual>` argument requires a `y` or `n` option. If `y` is given, the `networkx` library will be used to create a visual representation of the graph coloring.
 
-**Problems with the heuritic approach:**
+### Examples
+
+#### Simple:
+For simple problems, the brute force and heuristic algorithm will both complete in roughly the same amount of time, and result in the same chromatic number for the graph.
+**Input:**
+
+**Brute Force Output:**
+```
+% python3 bruteforce.py ./optimal/simple.dat y
+Chromatic number: 3
+Coloring: {1: 1, 2: 2, 3: 3, 4: 1}
+```
+**Heuristic Output:**
+```
+% python3 heuristic.py ./optimal/simple.dat n
+Chromatic number: 3
+Coloring: {1: 3, 2: 1, 3: 2, 4: 3}
+```
+#### Intractable:
+For intractable problems, the brute force is not viable due to how long it would take to find a solution. Instead, we just use the heuristic approach to try to guess a close to optimal solution.
+**Input:**
+```
+Graph Coloring Problem:
+20
+1 2 0
+2 3 0
+3 4 0
+4 5 0
+5 6 0
+6 7 0
+7 8 0
+8 9 0
+9 10 0
+10 11 0
+11 12 0
+12 13 0
+13 14 0
+14 15 0
+15 16 0
+16 17 0
+17 18 0
+18 19 0
+19 20 0
+2 4 0
+6 8 0
+10 12 0
+14 16 0
+18 20 0
+$
+```
+**Heuristic Output:**
+```
+% python3 heuristic.py ./optimal/intractable.dat y
+Chromatic number: 3
+Coloring: {1: 2, 2: 1, 3: 3, 4: 2, 5: 3, 6: 1, 7: 3, 8: 2, 9: 3, 10: 1, 11: 3, 12: 2, 13: 3, 14: 1, 15: 3, 16: 2, 17: 3, 18: 1, 19: 2, 20: 3}
+```
+
+#### Interesting:
 Since the heurstic approach attempts to guess at the optimal solution, it can sometimes provide suboptimal solutions for certain graphs. One of these graphs is the following:
+**Input:**
 ```
 8
 1 2 1
@@ -95,21 +165,75 @@ Since the heurstic approach attempts to guess at the optimal solution, it can so
 4 8 1
 $
 ```
+**Brute Force Output:**
+```
+% python3 bruteforce.py ./suboptimal/gc_achankins.dat y
+Chromatic number: 2
+Coloring: {1: 1, 2: 2, 3: 1, 4: 2, 5: 1, 6: 2, 7: 2, 8: 1}
+```
+**Heuristic Output:**
+```
+% python3 heuristic.py ./suboptimal/gc_achankins.dat y
+Chromatic number: 3
+Coloring: {1: 1, 2: 2, 3: 3, 4: 1, 5: 2, 6: 3, 7: 2, 8: 2}
+```
 
-## Mapping to the Graph Coloring Problem
+## Mappings
 
-### Independent Set
+### Mapping to the Graph Coloring Problem from 3-SAT
 
-**Running the mapping:**
+#### Approach:
+Since both the Graph Coloring Problem and 3-SAT problem are NP-Hard, they are able to be reduced to and from each other. For this project, I chose to map the 3-SAT problem to the graph coloring problem.
 
-## Mapping the Graph Coloring Problem to other NP-Complete Problems
+First let us assume that the 3-SAT problem has a 3-SAT formula of `m` clauses with `n` variables denoted `x_1, x_2, ..., x_n`. The graph that will implement the reduction can be constucted using the following:
+1. For every variable `x_i` construct a vertex `v_i` in the graph and a vertex `v_i'` denoting the negation of the variable `x_i`. An edge should then be added between these two vertices.
+3. Add three vertices denoted `'T'`, `'F'`, and `'B'`. These will denote the values True, False, and Base. Connect these vertices such that a triangle is formed.
+4. Connect every `v_i` and `v_i'` with vertex `'B'`.
+5. Create an OR gadget graph for each clause `(u V v V w)` using 6 vertices denoted `ci_0, ci_1, ..., ci_5`. The reulting subgraph will be the following:
+    ```
+    G[u] = [ci_0]
+    G[v] = [ci_1]
+    G[w] = [ci_4]
+    G[ci_0] = [u, ci_1, ci_2]
+    G[ci_1] = [v, ci_0, ci_2]
+    G[ci_2] = [ci_0, ci_1, ci_3]
+    G[ci_3] = [ci_2, ci_4, ci_5]
+    G[ci_4] = [w, ci_3, ci_5]
+    G[ci_5] = [ci_3, ci_4]
+    ```
 
-### Clique Problem
+Once this graph has been created, we then can run the graph coloring algorithm on it. If the graph is 3 colorable, then we know that the 3-SAT problem has a solution.
 
-**Running the mapping:**
+**Example:**
+<img src="./3sat_to_graph_coloring/example_mapping.png" alt="example mapping" width="50%">
+*https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf*
+
+#### Running the Mapping:
+For a simple example of the mapping, I will only use one clause.
+**Input 3-SAT formula:**
+```
+3-Sat Problem:
+-1 2 3
+$
+```
+**Mapping Result:**
+```
+% python3 3sat_to_gc.py 3sat_to_gc3.dat y
+Chromatic number: 3
+Coloring: {'-1': 1, '-2': 1, '-3': 1, '1': 2, '2': 2, '3': 2, 'B': 3, 'F': 1, 'T': 2, 'c0_0': 2, 'c0_1': 1, 'c0_2': 3, 'c0_3': 1, 'c0_4': 3, 'c0_5': 2}
+```
+<img src="./3sat_to_graph_coloring/example_result.png" alt="example mapping" width="50%">
+
+### Mapping Graph Coloring to the Clique Problem
+
+#### Approach:
+
+#### Running the mapping:
 
 ## References
 The following references were used when create the graph coloring algorithms and mappings:
 ```
 1. https://www.researchgate.net/publication/305457929_Reducing_graph_coloring_to_clique_search
+2. https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf
+3. https://www.geeksforgeeks.org/3-coloring-is-np-complete/
 ```

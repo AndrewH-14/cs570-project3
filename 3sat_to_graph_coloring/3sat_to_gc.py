@@ -47,10 +47,7 @@ def sat_to_3coloring(formula):
         G['F'].append(c5)
 
     # Color the graph to determine if the formula is solvable
-    #k, coloring = heuristic.heuristic_search(G)
-    print(G)
     k, coloring = bruteforce.find_chromatic_number_bruteforce_loop(G)
-    print(G)
 
     return (True if k <= 3 else False), G, k, coloring
 
