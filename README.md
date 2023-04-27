@@ -24,6 +24,8 @@ CS570-Project3/
  ├── heuristic.py : A heuristic algorithm for the graph coloring problem.
  ├── bruteforce.py : A brute force implementation of the graph coloring algorithm.
  ├── graph_util.py : Module containing utility functions for handling graphs.
+ ├── AndrewHankins-P3.docx : Microsoft word version of report.
+ ├── AndrewHankins-P3.pdf : PDF version of report.
  |
  ├── optimal/
  |     ├── simple.dat : A simple graph where bf/h get the same result.
@@ -34,6 +36,7 @@ CS570-Project3/
  |    ├── suboptimal2.dat
  |    ├── suboptimal3.dat
  |    ├── suboptimal4.dat
+ |    ├── suboptimal5.dat
  |
  ├── 3sat_to_graph_coloring/
  |    ├── 3sat_to_graph_coloring.py : Program that maps a 3sat problem to a gc problem
@@ -216,6 +219,14 @@ Once this graph has been created, we then can run the graph coloring algorithm o
 https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf
 
 #### Running the Mapping:
+From the `3sat_to_graph_coloring` directory run:
+```
+python3 3sat_to_gc.py <graph> <algorithm> <visual>
+```
+The `<graph>` argument corresponds to a graph data file that follows the previously described format.
+The `<algorithm>` arguement requires `bf` or `h` as input to determine which graph colring algorithm will be used in order to test the mapping.
+The `<visual>` argument requires a `y` or `n` option. If `y` is given, the `networkx` library will be used to create a visual representation of the graph coloring.
+
 For a simple example of the mapping, I will only use one clause.
 **Input 3-SAT formula:**
 ```
@@ -245,6 +256,14 @@ Given an instance of the graph coloring problem with a graph `G = (V, E)` and `k
 After running the clique algorithm over the new graph, if a clique of size `|V|` exists, then we know that the graph is `k` colorable.
 
 #### Running the mapping:
+
+From the `graph_coloring_to_clique` directory run:
+```
+python3 3sat_to_gc.py <graph> <visual> <num colors>
+```
+The `<graph>` argument corresponds to a graph data file that follows the previously described format.
+The `<visual>` argument requires a `y` or `n` option. If `y` is given, the `networkx` library will be used to create a visual representation of the graph.
+The `<num colors>` argument requires an integer as input. This will be the number of colors that we are attempting to color the original graph with.
 
 **Input Graph:**
 ```
