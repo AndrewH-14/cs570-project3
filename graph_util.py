@@ -40,7 +40,8 @@ def print_graph(graph):
     Prints off the graph.
     Parameters:
     -----------
-        graph
+        graph : dictionary
+            The graph that will be printed off.
     Returns:
     --------
         None

@@ -1,5 +1,5 @@
 """
-Program that will map a graph coloring problem to the clique problem.
+Program that will map a 3-SAT problem to a graph coloring problem.
 
 Written by: Andrew Hankins
 
@@ -13,6 +13,22 @@ import bruteforce
 import graph_util
 
 def sat_to_3coloring(formula, algorithm):
+    """
+    Function that will map the 3-SAT problem to the graph coloring problem.
+    Parameters:
+    -----------
+        formula : list
+            The 3-SAT formula that will be reduced to a graph coloring graph.
+        algorihtm : str
+            A string representation of which graph coloring algorithm to use.
+            'bf' for bruteforce and 'h' for heuristic.
+    Returns:
+    --------
+        bool : Whether or not the formula is satisfiable.
+        dictionary : The graph that was created.
+        int : The number of colors used in the coloring
+        dictionary : The coloring of the graph.
+    """
     # Parse the SAT formula to extract the variables and clauses
     variables = set()
     for clause in formula:
@@ -64,6 +80,17 @@ def sat_to_3coloring(formula, algorithm):
     return (True if k <= 3 else False), G, k, coloring
 
 def read_file(file_name):
+    """
+    Function that will read in the 3-SAT formula form the input file
+    Parameters:
+    -----------
+        file_name : str
+            The name of the file containing the formula.
+    Returns:
+    --------
+        list : A list of lists where each index represents a clause in the
+               formula.
+    """
     # Read the entire file as a string
     with open(file_name, 'r') as f:
         lines = f.readlines()
@@ -83,6 +110,9 @@ def read_file(file_name):
     return clauses
 
 def main():
+    """
+    The main function for the 3-SAT ro graph coloring reduction program.
+    """
     # Read sat forumal from data file
     sat_formula = read_file(sys.argv[1])
     # Get the solution if any exist

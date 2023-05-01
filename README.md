@@ -1,7 +1,7 @@
 # NP-Complete Project: Graph Coloring
 **Name:** Andrew Hankins
 **Course:** CS 570
-**Due:** May 7th, 2023
+**Due:** May 3rd, 2023
 
 ## Requirements
 
@@ -54,6 +54,8 @@ CS570-Project3/
 
 ## Graph Coloring Algorithms
 
+The Graph Coloring problem is a problem within the NP-Complete space where the goal is to determine whether a coloring with `k` colors exists for a graph such that no two adjacent vertices share the same color. An NP-Hard optimization problem that is related to this is the Min Graph Coloring problem, where the goal is to determine the minimum number of colors needed to produce a valid coloring for the graph. In the following section two algorithms for solving this problem will be discussed.
+
 ### Data File Format
 Graphs will be passed to the two algorithms using a data file in the following format:
 ```
@@ -92,7 +94,7 @@ The `<visual>` argument requires a `y` or `n` option. If `y` is given, the `netw
 ### Heuristic Algorithm
 
 **Approach:**
-The heuristic algorithm used for the graph coloring problem works by incrementally attempting to color the graph in decreasing order of the node's degree. This means that nodes with more edges connected to them will be colored first, as they are more likely to cause conflicts if left uncolored. If the current number of colors is not enough to color the graph without conflicts, the algorithm will increase the number of colors allowed. This continues until a valid coloring is found.
+The heuristic algorithm used for the graph coloring problem works by attempting to color the graph in decreasing order of the node's degree. This means that nodes with more edges connected to them will be colored first, as they are more likely to cause conflicts if left uncolored. If the current number of colors is not enough to color the graph without conflicts, the algorithm will increase the number of colors allowed. This continues until a valid coloring is found.
 
 **Running the heuristic algorithm:**
 ```
@@ -191,13 +193,13 @@ Coloring: {1: 1, 2: 2, 3: 3, 4: 1, 5: 2, 6: 3, 7: 2, 8: 2}
 ### Mapping to the Graph Coloring Problem from 3-SAT
 
 #### Approach:
-Since both the Graph Coloring Problem and 3-SAT problem are NP-Hard, they are able to be reduced to and from each other. For this project, I chose to map the 3-SAT problem to the graph coloring problem.
+Since both the Graph Coloring Problem and 3-SAT problem are NP-Complete, they are able to be reduced to and from each other. For this project, I chose to map the 3-SAT problem to the graph coloring problem.
 
 First let us assume that the 3-SAT problem has a 3-SAT formula of `m` clauses with `n` variables denoted `x_1, x_2, ..., x_n`. The graph that will implement the reduction can be constucted using the following:
 1. For every variable `x_i` construct a vertex `v_i` in the graph and a vertex `v_i'` denoting the negation of the variable `x_i`. An edge should then be added between these two vertices.
 3. Add three vertices denoted `'T'`, `'F'`, and `'B'`. These will denote the values True, False, and Base. Connect these vertices such that a triangle is formed.
 4. Connect every `v_i` and `v_i'` with vertex `'B'`.
-5. Create an OR gadget graph for each clause `(u V v V w)` using 6 vertices denoted `ci_0, ci_1, ..., ci_5`. The reulting subgraph will be the following:
+5. Create an OR gadget graph for each clause `(u V v V w)` using 6 vertices denoted `ci_0, ci_1, ..., ci_5`. The resulting subgraph will be the following:
     ```
     G[u] = [ci_0]
     G[v] = [ci_1]
@@ -224,7 +226,7 @@ From the `3sat_to_graph_coloring` directory run:
 python3 3sat_to_gc.py <graph> <algorithm> <visual>
 ```
 The `<graph>` argument corresponds to a graph data file that follows the previously described format.
-The `<algorithm>` arguement requires `bf` or `h` as input to determine which graph colring algorithm will be used in order to test the mapping.
+The `<algorithm>` arguement requires `bf` or `h` as input to determine which graph coloring algorithm will be used in order to test the mapping.
 The `<visual>` argument requires a `y` or `n` option. If `y` is given, the `networkx` library will be used to create a visual representation of the graph coloring.
 
 For a simple example of the mapping, I will only use one clause.
@@ -245,7 +247,7 @@ Coloring: {'-1': 1, '-2': 1, '-3': 1, '1': 2, '2': 2, '3': 2, 'B': 3, 'F': 1, 'T
 ### Mapping Graph Coloring to the Clique Problem
 
 #### Approach:
-Since both the graph coloring problem and the clique problem are included in the NP-Hard problem set, there exits a reduction between the two. For this project, I mapped the graph coloring problem onto the clique problem.
+Since both the graph coloring problem and the clique problem are included in the NP-Complete problem set, there exits a reduction between the two. For this project, I mapped the graph coloring problem onto the clique problem.
 
 Given an instance of the graph coloring problem with a graph `G = (V, E)` and `k` colors, we can contstruct a new graph G' as follows:
 1. For each vertex `v` in `V`, create `k` copies of `v`, denoted `v1, v2, ..., vk`. These copies represent the possible colors of vertex `v`.
@@ -261,7 +263,7 @@ From the `graph_coloring_to_clique` directory run:
 ```
 python3 3sat_to_gc.py <graph> <visual> <num colors>
 ```
-The `<graph>` argument corresponds to a graph data file that follows the previously described format.
+The `<formula>` argument corresponds to a 3-SAT formula data file.
 The `<visual>` argument requires a `y` or `n` option. If `y` is given, the `networkx` library will be used to create a visual representation of the graph.
 The `<num colors>` argument requires an integer as input. This will be the number of colors that we are attempting to color the original graph with.
 
